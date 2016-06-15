@@ -1,2 +1,3 @@
 # CoreGraphics 学习笔记
-！[image](http://i2.buimg.com/6df3476d9a239e48.jpg)
+### 画一个带渐变色的柱状图
+例：![exp](http://ww4.sinaimg.cn/large/64d203b1jw1f4vy7vtoe8j20hn0bqdgf.jpg)
