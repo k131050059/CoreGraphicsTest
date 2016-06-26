@@ -28,8 +28,7 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
-        
-        
+   
     }
     return self;
 }
@@ -130,23 +129,77 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
                 month.textColor=UIColorFromRGB(0xfc9d46);
             }
             [self addSubview:month];
+            
+            
         }
     }
 }
+@end
 
+@interface testView : UIView
 
 @end
-@interface ViewController (){
-    ColumnarView *cView; ///柱状图
+@implementation testView
+
+- (id)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        // Initialization code
+        
+        
+    }
+    return self;
+}
+-(void)drawRect:(CGRect)rect{
+    //绘制矩形
+    [self drawRectangle];
+    //绘制椭圆
+    [self drawEllipse];
+    
+ 
+}
+//绘制椭圆
+- (void)drawEllipse {
+    CGContextRef ctx = UIGraphicsGetCurrentContext();
+ 
+    CGRect rectangle = CGRectMake(20,10, 30, 20);
+    
+    // 在当前路径下添加一个椭圆路径
+    CGContextAddEllipseInRect(ctx, rectangle);
+    
+    // 设置当前视图填充色
+    CGContextSetFillColorWithColor(ctx, [UIColor orangeColor].CGColor);
+    
+ 
+    CGContextFillPath(ctx);
+}
+//绘制矩形
+- (void)drawRectangle {
+    CGRect rectange = CGRectMake(0, 0, 10, 10);
+    //获取当前画布
+    CGContextRef ctx = UIGraphicsGetCurrentContext();
+    
+    CGContextAddRect(ctx, rectange);
+    
+    CGContextSetFillColorWithColor(ctx, [UIColor redColor].CGColor);
+    
+    CGContextFillPath(ctx);
 }
 
+@end
+
+@interface ViewController (){
+    ColumnarView *cView; ///柱状图
+    testView *tView;
+}
 @end
 
 @implementation ViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    cView =[[ColumnarView alloc]initWithFrame:CGRectMake(0, 47, self.view.frame.size.width, columnarHeight)];
+    cView =[[ColumnarView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, columnarHeight)];
     cView.maxMoney=140;
     cView.backgroundColor=[UIColor clearColor];
     cView.changeBlue=3;
@@ -154,8 +207,15 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
     cView.valueArray=@[@(111),@(40),@(41),@(134),@(63),@(97),@(84),@(108),@(79),@(11),@(11),@(11),@(11) ];
 //    [cView setNeedsDisplay];
     [self.view addSubview:cView];
-    // Do any additional setup after loading the view, typically from a nib.
+
+    tView=[[testView alloc]initWithFrame:CGRectMake(0, columnarHeight+10, self.view.frame.size.width, self.view.frame.size.height-columnarHeight)];
+    tView.backgroundColor=[UIColor clearColor];
+    [self.view addSubview:tView];
+    
+    
 }
+
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
