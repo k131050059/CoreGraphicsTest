@@ -156,14 +156,24 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
     [self drawRectangle];
     //绘制椭圆
     [self drawEllipse];
-    
- 
+    //绘制三角型
+    [self drawTriangle];
+    [self drawCurve];
+    //文字
+    UIFont * helveticaBold = [UIFont fontWithName:@"HelveticaNeue-Bold" size:30.0f];
+    NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+    paragraphStyle.lineBreakMode=NSLineBreakByTruncatingTail;
+    paragraphStyle.alignment=NSTextAlignmentRight;
+    NSDictionary *dictionary =  @{ NSFontAttributeName: helveticaBold,
+                                   NSParagraphStyleAttributeName: paragraphStyle };
+    NSString * myString = @"I Learn Really Fast";
+    [myString drawAtPoint:CGPointMake(25, 190) withAttributes:dictionary];
 }
-//绘制椭圆
+//绘制圆
 - (void)drawEllipse {
     CGContextRef ctx = UIGraphicsGetCurrentContext();
  
-    CGRect rectangle = CGRectMake(20,10, 30, 20);
+    CGRect rectangle = CGRectMake(20,10, 30, 30);
     
     // 在当前路径下添加一个椭圆路径
     CGContextAddEllipseInRect(ctx, rectangle);
@@ -186,7 +196,43 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
     
     CGContextFillPath(ctx);
 }
-
+- (void)drawTriangle{
+    CGContextRef ctx = UIGraphicsGetCurrentContext();
+    CGContextBeginPath(ctx);
+    
+    CGContextMoveToPoint(ctx, 60, 20);
+    CGContextAddLineToPoint(ctx, 90, 60);
+    CGContextAddLineToPoint(ctx, 30, 60);
+ 
+    CGContextClosePath(ctx);
+    
+ 
+    CGContextSetFillColorWithColor(ctx, [UIColor blackColor].CGColor);
+    CGContextFillPath(ctx);
+}
+// 绘制曲线
+- (void)drawCurve{
+    CGContextRef ctx=UIGraphicsGetCurrentContext();
+    CGContextBeginPath(ctx);
+    CGContextMoveToPoint(ctx, 100, 100);
+    /**
+     *  @brief 在指定点追加二次贝塞尔曲线，通过控制点和结束点指定曲线。
+ 
+     *  @param c   当前图形
+     *  @param cpx 曲线控制点的x坐标
+     *  @param cpy 曲线控制点的y坐标
+     *  @param x   指定点的x坐标值
+     *  @param y   指定点的y坐标值
+     *
+     */
+    CGContextAddQuadCurveToPoint(ctx, 125, 50, 150, 100);
+    CGContextSetLineWidth(ctx, 2);
+    
+    CGContextSetStrokeColorWithColor(ctx, [UIColor brownColor].CGColor);
+    //取消抗锯齿
+//     CGContextSetAllowsAntialiasing(ctx,NO);
+    CGContextStrokePath(ctx);
+}
 @end
 
 @interface ViewController (){
